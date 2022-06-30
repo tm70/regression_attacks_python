@@ -5,7 +5,7 @@ import pandas as pd
 import torch.nn.functional as F
 from sklearn.model_selection import train_test_split
 
-from workshopattacks import *
+from regattackTorch import *
 
 # define regression model
 class Net(nn.Module):
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     
     # train/test split
     rng = np.random.RandomState(0)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=rng)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=rng)
     
     x_train = torch.Tensor(x_train)
     x_test = torch.Tensor(x_test)
@@ -71,8 +71,6 @@ if __name__ == "__main__":
     #e = 0.3317 * attack11(net, torch.eye(11), x_test[0])
     print(torch.linalg.norm(e, ord=2))
     print(torch.linalg.norm(net(x_test[0]) - net(x_test[0] + e), ord=2))
-    #print(y_test[0])
-    #print(net(x_test[0] + e))
     
     print("FGSM")
     ex = FGSM(net, nn.MSELoss(), x_test[0], y_test[0], 0.1)

@@ -19,7 +19,7 @@ def IFGSM(model, criterion, x, y, epsilon=1e-3, epochs=20):
         x = x + torch.mul(torch.sign(grad), epsilon/epochs)
     return x
 
-# i=j=2 attack from IJCAI workshop paper
+# p=q=2 attack from IJCAI workshop paper
 def attack22(model, sigma, x):
     J = torch.autograd.functional.jacobian(model, x)
     mat = torch.matmul(J, torch.sqrt(sigma))
@@ -33,7 +33,7 @@ def attack22(model, sigma, x):
             maxidx = i
     return F.normalize(V[:,maxidx], p=2, dim=0)
 
-# i=j=1 attack from IJCAI workshop paper
+# p=q=1 attack from IJCAI workshop paper
 def attack11(model, sigma, x):
     e = torch.zeros(len(x))
     J = torch.autograd.functional.jacobian(model, x)
